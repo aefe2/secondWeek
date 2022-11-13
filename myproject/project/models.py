@@ -9,13 +9,12 @@ from django.utils.crypto import get_random_string
 # сущности - пользователь, заявка, категория
 
 class User(AbstractUser):
-    fname = models.CharField(max_length=150, verbose_name='Имя', blank=False)
-    lname = models.CharField(max_length=150, verbose_name='Фамилия', blank=False)
-    sname = models.CharField(max_length=150, verbose_name='Отчество', blank=True)
-    username = models.CharField(max_length=150, verbose_name='Логин', unique=True, blank=False)
-    email = models.CharField(max_length=250, verbose_name='Почта', unique=True, blank=False)
-    password = models.CharField(max_length=250, verbose_name='Пароль', blank=False)
-    data_processing = models.BooleanField(verbose_name='Согласие на обработку персональных данных', blank=False)
+    fname = models.CharField(max_length=150, verbose_name='Имя', null=False, blank=False)
+    lname = models.CharField(max_length=150, verbose_name='Фамилия', null=True, blank=True)
+    sname = models.CharField(max_length=150, verbose_name='Отчество', null=False, blank=False)
+    username = models.CharField(max_length=150, verbose_name='Логин', unique=True, null=False, blank=False)
+    email = models.CharField(max_length=250, verbose_name='Почта', unique=True, null=False, blank=False)
+    password = models.CharField(max_length=250, verbose_name='Пароль', null=False, blank=False)
 
     USERNAME_FIELD = 'username'
 
@@ -34,11 +33,11 @@ def file_size(value):
 
 
 class Aplication(models.Model):
-    name = models.CharField(max_length=250, verbose_name='Название', blank=False)
-    description = models.CharField(max_length=250, verbose_name='Описание', blank=False)
-    category = models.ForeignKey('Category', verbose_name='Категория', on_delete=models.CASCADE)
+    name = models.CharField(max_length=250, verbose_name='Название', null=False, blank=False)
+    description = models.CharField(max_length=250, verbose_name='Описание', null=False, blank=False)
+    Category = models.ForeignKey('project.Category', verbose_name='Категория', blank=False, null=False, on_delete=models.CASCADE)
     photo = models.ImageField(max_length=250, upload_to=get_name_file,
-                              blank=False, null=True,
+                              blank=False, null=False,
                               validators=[FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png', 'bmp']),
                                           file_size])
 
@@ -46,8 +45,8 @@ class Aplication(models.Model):
         return self.name
 
 
-class Category:
-    name = models.CharField(max_length=250, verbose_name='Название', blank=False)
+class Category(models.Model):
+    name = models.CharField(max_length=250, verbose_name='Название', null=False, blank=False)
 
     def __str__(self):
         return self.name

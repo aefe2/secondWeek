@@ -22,7 +22,7 @@ from myproject import settings
 
 urlpatterns = [
     path('superadmin/', admin.site.urls),
-    path('', include(urls)),
+    path('', include('project.urls')),
 ]
 
 urlpatterns += static(settings.STATIC_URL)

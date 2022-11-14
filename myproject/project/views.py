@@ -5,4 +5,4 @@ from django.shortcuts import render
 # Create your views here.
 
 def login(request):
-    return HttpResponse('sa')
+    return render(request, 'registration/basic.html')

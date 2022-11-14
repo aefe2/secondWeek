@@ -43,6 +43,13 @@ class Aplication(models.Model):
                               blank=False, null=False,
                               validators=[FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png', 'bmp']),
                                           file_size])
+    date = models.DateTimeField(verbose_name='Дата заявки', auto_now_add=True)
+    status_choices = [
+        ('new', 'Новая'),
+        ('done', 'Выполнено'),
+        ('received', 'Принято в работу')
+    ]
+    status = models.CharField(max_length=250, verbose_name='Статус', choices=status_choices, default='New')
 
     def __str__(self):
         return self.name

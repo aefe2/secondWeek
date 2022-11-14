@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    {% block title %}<title>Дизайн студия</title>{% endblock %}
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+    <a href="#" class="navbar-brand">Дизайн - студия</a>
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        {% block sidebar %}
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a href="#" class="nav-link">Главная</a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">Заявки</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<main role="main" class="container">
+    <div class="starter-template">
+        {% block content %}{% endblock %}
+    </div>
+</main>
+</body>
+</html>

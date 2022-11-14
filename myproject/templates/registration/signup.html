@@ -1,0 +1,41 @@
+{% extends "basic.html" %}
+
+{% block content %}
+    <div class="row justify-content-center mt-5">
+        <div class="text-center col-md-5">
+            <h2>Регистрация</h2>
+        </div>
+    </div>
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-5">
+            {% if error %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+            {% endif %}
+            <form method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="username">Логин</label>
+                    <input type="text" name="username" class="form-control" id="username" aria-describedby="usernameHelp">
+                    <small id="usernameHelp" class="form-text text-muted">Ваш логин должен быть уникальным. <br>Допускается латиница и дефис.</small>
+                </div>
+                <div class="form-group">
+                    <label for="password1">Пароль</label>
+                    <input type="password" name="password1" class="form-control" id="password1">
+                </div>
+                <div class="form-group">
+                    <label for="password2">Подтверждение пароля</label>
+                    <input type="password" name="password2" class="form-control" id="password2">
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Зарегестрироваться</button>
+                </div>
+            </form>
+            <hr>
+            <div class="text-center">
+                У вас уже есть аккаунт? <a href="{% url 'login' %}">Авторизоваться</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

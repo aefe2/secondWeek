@@ -15,12 +15,14 @@ Including another URLconf
 """
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 
+from project import urls
 from myproject import settings
 
 urlpatterns = [
     path('superadmin/', admin.site.urls),
+    path('', include(urls)),
 ]
 
 urlpatterns += static(settings.STATIC_URL)

@@ -8,18 +8,10 @@ from .models import Aplication
 from project.forms import RegisterUserForm
 
 
-# Create your views here.
-
-
 def index(request):
     counter = Aplication.objects.filter(status='received').all().count()
     done = Aplication.objects.filter(status='done').order_by('-date')[:4]
     return render(request, 'main/index.html', {'done': done, 'counter': counter})
-
-
-@login_required
-def profile(request):
-    return render(request, 'main/profile.html')
 
 
 class BBLoginView(LoginView):
@@ -30,3 +22,15 @@ class RegisterView(CreateView):
     template_name = 'registration/register.html'
     form_class = RegisterUserForm
     success_url = reverse_lazy('login')
+
+
+@login_required
+def createaplication(request):
+    return render(request, 'main/create_aplication.html')
+
+
+@login_required
+def profile(request):
+    return render(request, 'main/profile.html')
+
+# регистрация, вход, главная страница, профиль, заявка, создание заявки

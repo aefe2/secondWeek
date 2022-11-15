@@ -3,15 +3,15 @@
 {% load bootstrap4 %}
 
 {% block content %}
-   <h2>Вход</h2>
-   {% if request.user.is_authenticated %}
-       <p>Вы уже выполнили вход. <a href="{% url 'logout' %}">Выйти.</a></p>
-   {% else %}
-       <form method="post">
-           {% csrf_token %}
-           {% bootstrap_form form layout='horizontal' %}
-           <input type="hidden" name="next" value="{{ next }}">
-           {% buttons submit='Войти' %} {% endbuttons %}
-       </form>
-   {% endif %}
+    <h2>Вход</h2>
+    {% if request.user.is_authenticated %}
+        <p>Вы уже выполнили вход. <a href="{% url 'logout' %}">Выйти.</a></p>
+    {% else %}
+        <form method="post">
+            {% csrf_token %}
+            {% bootstrap_form form layout='horizontal' %}
+            <input type="hidden" name="next" value="{{ next }}">
+            {% buttons submit='Войти' %} {% endbuttons %}
+        </form>
+    {% endif %}
 {% endblock %}

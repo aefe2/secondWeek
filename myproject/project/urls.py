@@ -1,12 +1,13 @@
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
 from project import views
-from .views import index, BBLoginView, profile
+from .views import index, BBLoginView, profile, RegisterView
+from django.contrib.auth import views as authViews
 
 urlpatterns = [
-    path('', views.index, name='index'),
+    path('', index, name='index'),
     path('login/', BBLoginView.as_view(), name='login'),
-    path('logout/', BBLoginView.as_view(), name='logout'),
-    path('register/', BBLoginView.as_view(), name='register'),
+    path('logout/', authViews.LogoutView.as_view(next_page='index'), name='logout'),
+    path('register/', RegisterView.as_view(), name='register'),
     path('profile/', profile, name='profile'),
 ]

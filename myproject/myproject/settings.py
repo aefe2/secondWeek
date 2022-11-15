@@ -124,5 +124,5 @@ MEDIA_URL = '/files/'
 
 AUTH_USER_MODEL = 'project.User'
 
-LOGIN_REDIRECT_URL = '/admin'
+LOGIN_REDIRECT_URL = '/profile'
 LOGOUT_REDIRECT_URL = '/login'

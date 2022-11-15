@@ -1,3 +1,5 @@
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import LoginView
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.urls import reverse_lazy
@@ -14,7 +16,16 @@ def index(request):
     return render(request, 'main/index.html', {'done': done, 'counter': counter})
 
 
+@login_required
+def profile(request):
+    return render(request, 'main/profile.html')
+
+
+class BBLoginView(LoginView):
+    template_name = 'registration/login.html'
+
+
 class RegisterView(CreateView):
-    template_name = 'registration/signup.html'
+    template_name = 'registration/register.html'
     form_class = RegisterUserForm
     success_url = reverse_lazy('login')

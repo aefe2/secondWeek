@@ -1,0 +1,11 @@
+{% extends 'basic.html' %}
+
+{% load bootstrap4 %}
+
+{% block content %}
+    <h4>Здравствуйте, {{ user.username }}</h4>
+    {% if user.fname and user.lname %}
+        <p>{{ user.fname }} {{ user.lname }} </p>
+    {% endif %}
+    <h5>Ваши заявки</h5>
+{% endblock %}

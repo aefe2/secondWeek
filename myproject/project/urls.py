@@ -9,5 +9,4 @@ urlpatterns = [
     path('logout/', BBLoginView.as_view(), name='logout'),
     path('register/', BBLoginView.as_view(), name='register'),
     path('profile/', profile, name='profile'),
-
 ]

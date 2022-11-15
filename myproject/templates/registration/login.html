@@ -4,7 +4,7 @@
 
 {% block content %}
    <h2>Вход</h2>
-   {% if user.is_authenticated %}
+   {% if request.user.is_authenticated %}
        <p>Вы уже выполнили вход. <a href="{% url 'logout' %}">Выйти.</a></p>
    {% else %}
        <form method="post">

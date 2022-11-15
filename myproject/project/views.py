@@ -8,6 +8,10 @@ from project.forms import RegisterUserForm
 
 # Create your views here.
 
+def index(request):
+    return render(request, 'main/index.html')
+
+
 class RegisterView(CreateView):
     template_name = 'registration/signup.html'
     form_class = RegisterUserForm

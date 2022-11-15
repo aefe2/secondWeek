@@ -1,5 +1,11 @@
 {% extends "basic.html" %}
 
 {% block content %}
-   <h4>Последние 4 заявки</h4>
+   <h4>Всего заявок в работе: {{ counter }}</h4>
+    {% for elem in done %}
+        <div class="d-sm-table-cell justify-content-between align-items-sm-baseline p-3 text-dark">
+            <img class="card" src="{{ elem.photo.url }}" alt="Фото заявки">
+            <p><b>Наименование:</b> {{ elem.name }} <br> <b>Категория:</b> {{ elem.Category }} <br> <b>Дата добавления:</b> {{ elem.date }}</p>
+        </div>
+    {% endfor %}
 {% endblock %}

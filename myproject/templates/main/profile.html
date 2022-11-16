@@ -3,6 +3,30 @@
 {% load bootstrap4 %}
 
 {% block content %}
-    <h4>Здравствуйте, {{ user.username }}</h4>
-    <h5>Ваши заявки</h5>
+    <h4 style="padding-bottom: 10px">Здравствуйте, {{ user.username }}</h4>
+    <h5 class="p-3 mb-2 bg-dark text-white text-center">Ваши заявки</h5>
+    {% if a_items %}
+        {% for item in a_items %}
+            <div class="table row p-3 text-dark bg-light border-top border-bottom">
+                <img class="col-4" src="{{ item.photo.url }}" alt="Фото заявки">
+                <p class="p-3 mb-2"><b>Наименование:</b> {{ item.name }} <br> <b>Категория:</b> {{ item.Category }}
+                    <br> <b>Дата добавления:</b> {{ item.date }} <br> <b>Описание:</b> {{ item.description }}
+                    <br><b>Статус: </b>{{ item.status }}</p>
+                <a href="#" class="btn btn-outline-danger mt-auto  ml-auto h-25">Удалить</a>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p class="">Вы еще не создали ни одну заявку</p>
+    {% endif %}
+{#    {% if aplication_items %}#}
+{#        <ul>#}
+{#            {% for item in aplication_items %}#}
+{#                <li>#}
+{#                    {{ item.name }} - {{ item.status }}#}
+{#                </li>#}
+{#            {% endfor %}#}
+{#        </ul>#}
+{#    {% else %}#}
+{#        <p>выфвф</p>#}
+{#    {% endif %}#}
 {% endblock %}

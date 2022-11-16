@@ -26,11 +26,19 @@ class RegisterView(CreateView):
 
 @login_required
 def createaplication(request):
+    print(3)
     return render(request, 'main/create_aplication.html')
 
 
 @login_required
 def profile(request):
+    print(4)
     return render(request, 'main/profile.html')
 
+
+@login_required
+def aplication(request):
+    a_items = request.user.aplication_set.all()
+    print(312)
+    return render(request, 'main/profile.html', context={'a_items': a_items, })
 # регистрация, вход, главная страница, профиль, заявка, создание заявки

@@ -19,7 +19,7 @@ class User(AbstractUser):
     personal_data = models.BooleanField(default=False, blank=False, null=False,
                                         verbose_name='Согласие на обработку персональных данных')
 
-    USERNAME_FIELD = 'username'
+    # USERNAME_FIELD = 'username'
 
     def __str__(self):
         return self.fname
@@ -36,6 +36,7 @@ def file_size(value):
 
 
 class Aplication(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь', null=True)
     name = models.CharField(max_length=250, verbose_name='Название', null=False, blank=False)
     description = models.CharField(max_length=250, verbose_name='Описание', null=False, blank=False)
     Category = models.ForeignKey('project.Category', verbose_name='Категория', blank=False, null=False,

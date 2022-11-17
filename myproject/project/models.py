@@ -29,10 +29,11 @@ def get_name_file(instance, filename):
     return '/'.join([get_random_string(length=5) + '_' + filename])
 
 
-def file_size(value):
-    limit = 2 * 1024 * 1024
-    if value.size > limit:
-        raise ValidationError('Файл слишком большой, он не должен весить больше 2Mb')
+def validate_image_size(img):
+    filesize = img.file.size
+    megabyte_max = 2.0
+    if filesize > megabyte_max * 1024 * 1024:
+        raise ValidationError("Максимальный размер %sMB" % str(megabyte_max))
 
 
 class Aplication(models.Model):
@@ -41,17 +42,19 @@ class Aplication(models.Model):
     description = models.CharField(max_length=250, verbose_name='Описание', null=False, blank=False)
     Category = models.ForeignKey('project.Category', verbose_name='Категория', blank=False, null=False,
                                  on_delete=models.CASCADE)
-    photo = models.ImageField(max_length=250, upload_to=get_name_file,
-                              blank=False, null=False,
-                              validators=[FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png', 'bmp']),
-                                          file_size])
+    photo = models.ImageField(upload_to=get_name_file,
+                              validators=[FileExtensionValidator(allowed_extensions=['png', 'jpg', 'jpeg', 'bmp']),
+                                          validate_image_size])
     date = models.DateTimeField(verbose_name='Дата заявки', auto_now_add=True)
     status_choices = [
         ('new', 'Новая'),
         ('done', 'Выполнено'),
         ('received', 'Принято в работу')
     ]
-    status = models.CharField(max_length=250, verbose_name='Статус', choices=status_choices, default='New')
+    status = models.CharField(max_length=250, verbose_name='Статус', choices=status_choices, default='new')
+
+    def status_verbose(self):
+        return dict(self.status_choices)[self.status]
 
     def __str__(self):
         return self.name

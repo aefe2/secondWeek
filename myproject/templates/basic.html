@@ -19,9 +19,11 @@
                 <li class="nav-item">
                     <a href="{% url 'index' %}" class="nav-link">Главная</a>
                 </li>
+                {% if request.user.is_authenticated %}
                 <li class="nav-item">
-                    <a href="{% url 'createaplication' %}" class="nav-link ">Создать заявку</a>
+                    <a href="{% url 'createapl' %}" class="nav-link ">Создать заявку</a>
                 </li>
+                {% endif %}
             </ul>
             {% if request.user.is_authenticated %}
                 <ul class="navbar-nav">
@@ -50,5 +52,8 @@
         {% block content %}{% endblock %}
     </div>
 </main>
+<footer class="mt-3 border-top text-center">
+    <small class="p-2"> &copy; Дизайн - студия 2018-2022 </small>
+</footer>
 </body>
 </html>

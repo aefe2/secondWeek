@@ -1,7 +1,9 @@
 from django import forms
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
-from project.models import User
+from django.forms import HiddenInput, inlineformset_factory
+
+from project.models import User, Aplication
 
 
 class RegisterUserForm(forms.ModelForm):
@@ -54,3 +56,10 @@ class RegisterUserForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ('username', 'email', 'password', 'password2', 'fname', 'lname', 'sname', 'personal_data')
+
+
+class CreateAplForm(forms.ModelForm):
+    class Meta:
+        model = Aplication
+        fields = ('name', 'description', 'Category', 'photo')
+        enctype = "multipart/form-data"

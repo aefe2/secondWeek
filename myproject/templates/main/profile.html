@@ -4,17 +4,22 @@
 
 {% block content %}
     <h4 style="padding-bottom: 10px">Здравствуйте, {{ user.username }}</h4>
-    <h5 class="p-3 mb-2 bg-dark text-white text-center">Ваши заявки</h5>
-    {% if a_items %}
-        {% for item in a_items %}
+    <div class="d-flex h5 p-3 mb-2 justify-content-between bg-dark text-white">Ваши заявки</div>
+    <a class="btn bg-dark text-white m-3" href="{% url 'profile' %}">Все</a>
+    <a class="btn bg-dark text-white m-3" href="{% url 'filter_new' %}">Новые</a>
+    <a class="btn bg-dark text-white m-3" href="{% url 'filter_done' %}">Выполненые</a>
+    <a class="btn bg-dark text-white m-3" href="{% url 'filter_received' %}">Принятые</a>
+    {% if apl_items %}
+        {% for item in apl_items %}
             <div class="table justify-content-between row p-3 text-dark bg-light border-top border-bottom">
                 <img class="col-4" src="{{ item.photo.url }}" alt="Фото заявки">
-                <p class="p-3 mb-2 mr-auto"><b>Наименование:</b> {{ item.name }} <br> <b>Категория:</b> {{ item.Category }}
+                <p class="p-3 mb-2 mr-auto"><b>Наименование:</b> {{ item.name }} <br>
+                    <b>Категория:</b> {{ item.Category }}
                     <br> <b>Дата добавления:</b> {{ item.date }} <br> <b>Описание:</b> {{ item.description }}
-                    <br><b>Статус: </b>{{ item.status }}</p>
+                    <br><b>Статус: </b>{{ item.status_verbose }}</p>
                 <form action="{% url 'delete' item.id %}" method="post">
                     {% csrf_token %}
-{#                    <a href="{% url 'delete' user.id %}" class="btn btn-outline-danger mt-auto  ml-auto h-25">Удалить</a>#}
+                    {#                    <a href="{% url 'delete' user.id %}" class="btn btn-outline-danger mt-auto  ml-auto h-25">Удалить</a>#}
                     <button type="submit" class="btn btn-outline-danger">Удалить</button>
                 </form>
             </div>
@@ -22,15 +27,5 @@
     {% else %}
         <p class="">Вы еще не создали ни одну заявку</p>
     {% endif %}
-{#    {% if aplication_items %}#}
-{#        <ul>#}
-{#            {% for item in aplication_items %}#}
-{#                <li>#}
-{#                    {{ item.name }} - {{ item.status }}#}
-{#                </li>#}
-{#            {% endfor %}#}
-{#        </ul>#}
-{#    {% else %}#}
-{#        <p>выфвф</p>#}
-{#    {% endif %}#}
+
 {% endblock %}

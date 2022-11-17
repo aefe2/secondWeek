@@ -21,8 +21,11 @@ class User(AbstractUser):
 
     # USERNAME_FIELD = 'username'
 
+    def full_name(self):
+        return str(self.lname) + ' ' + str(self.fname) + ' ' + str(self.sname)
+
     def __str__(self):
-        return self.fname
+        return self.full_name()
 
 
 def get_name_file(instance, filename):
@@ -42,7 +45,7 @@ class Aplication(models.Model):
     description = models.CharField(max_length=250, verbose_name='Описание', null=False, blank=False)
     Category = models.ForeignKey('project.Category', verbose_name='Категория', blank=False, null=False,
                                  on_delete=models.CASCADE)
-    photo = models.ImageField(upload_to=get_name_file,
+    photo = models.ImageField(upload_to=get_name_file, blank=False,
                               validators=[FileExtensionValidator(allowed_extensions=['png', 'jpg', 'jpeg', 'bmp']),
                                           validate_image_size])
     date = models.DateTimeField(verbose_name='Дата заявки', auto_now_add=True)
@@ -52,12 +55,17 @@ class Aplication(models.Model):
         ('received', 'Принято в работу')
     ]
     status = models.CharField(max_length=250, verbose_name='Статус', choices=status_choices, default='new')
+    comment = models.CharField(max_length=250, verbose_name='Комментарий', blank=True)
+    second_photo = models.ImageField(upload_to=get_name_file, blank=True,
+                                     validators=[
+                                         FileExtensionValidator(allowed_extensions=['png', 'jpg', 'jpeg', 'bmp']),
+                                         validate_image_size], null=True)
 
     def status_verbose(self):
         return dict(self.status_choices)[self.status]
 
     def __str__(self):
-        return self.name
+        return str(self.name) + ' | ' + str(self.Category) + ' | ' + str(self.status_verbose())
 
     # def save(self):
     #     super().save()
@@ -71,7 +79,7 @@ class Aplication(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=250, verbose_name='Название',
-                            choices=(('3d', '3D Дизайн'), ('2d', '2D Дизайн'), ('sketch', 'Эскиз')), null=False,
+                            null=False,
                             blank=False)
 
     def __str__(self):

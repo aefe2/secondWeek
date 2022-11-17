@@ -63,3 +63,16 @@ class CreateAplForm(forms.ModelForm):
         model = Aplication
         fields = ('name', 'description', 'Category', 'photo')
         enctype = "multipart/form-data"
+
+
+class AplicationForm(forms.ModelForm):
+    def clean(self):
+        status = self.cleaned_data.get('status')
+        comment = self.cleaned_data.get('comment')
+        second_photo = self.cleaned_data.get('second_photo')
+        if self.instance.status != 'new':
+            raise forms.ValidationError({'status': 'Статус можно сменить только у новой заявки'})
+        if status == 'received' and not comment:
+            raise forms.ValidationError({'comment': 'Нужно указать комментарий для заявки принятой в работу'})
+        if status == 'done' and not second_photo:
+            raise forms.ValidationError({'second_photo': 'Нужно добавить фотографию для выполненой заявки'})

@@ -12,20 +12,100 @@
     {% if apl_items %}
         {% for item in apl_items %}
             <div class="table justify-content-between row p-3 text-dark bg-light border-top border-bottom">
+
                 <img class="col-4" src="{{ item.photo.url }}" alt="Фото заявки">
                 <p class="p-3 mb-2 mr-auto"><b>Наименование:</b> {{ item.name }} <br>
                     <b>Категория:</b> {{ item.Category }}
                     <br> <b>Дата добавления:</b> {{ item.date }} <br> <b>Описание:</b> {{ item.description }}
                     <br><b>Статус: </b>{{ item.status_verbose }}</p>
-                <form action="{% url 'delete' item.id %}" method="post">
-                    {% csrf_token %}
-                    {#                    <a href="{% url 'delete' user.id %}" class="btn btn-outline-danger mt-auto  ml-auto h-25">Удалить</a>#}
-                    <button type="submit" class="btn btn-outline-danger">Удалить</button>
-                </form>
+
+                <!-- Удалять можно только новые заявки -->
+                {% if item.status == 'new' %}
+                    <button id="myBtn" class="btn btn-outline-danger mt-auto  ml-auto h-25">Удалить</button>
+                {% endif %}
+
+                <div id="myModal" class="modal">
+                    <!-- Модальное окно -->
+                    <div class="modal-content">
+                        <span class="close text-right">&times;</span>
+                        <p class="">Вы уверены?</p>
+                        <form class="justify-content-center" action="{% url 'delete' item.id %}" method="post">
+                            {% csrf_token %}
+                            {#                    <a href="{% url 'delete' user.id %}" class="btn btn-outline-danger mt-auto  ml-auto h-25">Удалить</a>#}
+                            <button type="submit" class="btn btn-outline-danger">Удалить</button>
+                        </form>
+                    </div>
+                </div>
+
             </div>
         {% endfor %}
     {% else %}
         <p class="">Вы еще не создали ни одну заявку</p>
     {% endif %}
+    <style>
+        /* фон модалки */
+        .modal {
+            display: none; /* Скрыто по умолчанию */
+            position: fixed; /* Чтоб на месте оставалось */
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%; /* Полная ширина */
+            height: 100%; /* Полная высота */
+            overflow: auto;
+            background-color: rgb(0, 0, 0);
+            background-color: rgba(0, 0, 0, 0.4);
+        }
 
+        /* Содержание */
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; /* 15% сверху и по центру */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 15%; /* Ширина мод */
+        }
+
+        /* Кнопка закрытия */
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        // Получаем модалку
+        var modal = document.getElementById("myModal");
+
+        // Кнопку
+        var btn = document.getElementById("myBtn");
+
+        // Получить элемент <span>, который закрывает модалку
+        var span = document.getElementsByClassName("close")[0];
+
+        // Когда пользователь нажимает на кнопку, открывается модалка
+        btn.onclick = function () {
+            modal.style.display = "block";
+        }
+
+        // Когда пользователь нажимает на <span> (x), закрывается окно
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
+
+        // Когда пользователь щелкает в любом месте за пределами модального, закрывается
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
 {% endblock %}

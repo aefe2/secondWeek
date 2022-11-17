@@ -91,7 +91,7 @@ def delete(request, id):
 
 @login_required
 def aplication_render(request):
-    apl_items = request.user.aplication_set.all()
+    apl_items = request.user.aplication_set.all().order_by('-date')
     return render(request, 'main/profile.html', context={'apl_items': apl_items})
 
 

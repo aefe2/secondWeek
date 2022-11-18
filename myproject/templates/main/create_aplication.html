@@ -3,10 +3,10 @@
 {% load bootstrap4 %}
 
 {% block content %}
-    <h4 class="p-3 mb-2 bg-secondary text-white">Создание заявки</h4>
-    <form method="post" novalidate="novalidate" enctype="multipart/form-data">
+    <h4 class="p-3 mb-2 bg-light text-secondary border">Создание заявки</h4>
+    <form method="post" novalidate="novalidate" enctype="multipart/form-data" class="d-flex w-50 flex-column m-auto mt-lg-5">
         {% csrf_token %}
-        {% bootstrap_form form layout='horizontal' %}
+        {% bootstrap_form form layout='vertical' %}
         {% buttons submit='Создать' %} {% endbuttons %}
     </form>
 {% endblock %}

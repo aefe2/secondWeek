@@ -3,12 +3,13 @@
 {% load bootstrap4 %}
 
 {% block content %}
-    <h4 style="padding-bottom: 10px">Здравствуйте, {{ user.username }}</h4>
-    <div class="d-flex h5 p-3 mb-2 justify-content-between bg-dark text-white">Ваши заявки</div>
-    <a class="btn bg-dark text-white m-3" href="{% url 'profile' %}">Все</a>
-    <a class="btn bg-dark text-white m-3" href="{% url 'filter' status='new' %}">Новые</a>
-    <a class="btn bg-dark text-white m-3" href="{% url 'filter' status='done' %}">Выполненые</a>
-    <a class="btn bg-dark text-white m-3" href="{% url 'filter' status='received' %}">Принятые</a>
+    <h4 class="mr-lg-5" style="padding-bottom: 10px">Здравствуйте, {{ user.username }}</h4>
+    <div class="h5 mr-lg-4 p-3 mb-2 bg-light text-secondary border">Ваши заявки
+        <a class="btn bg-light text-secondary border m-3" href="{% url 'profile' %}">Все</a>
+        <a class="btn bg-light text-secondary border m-3" href="{% url 'filter' status='new' %}">Новые</a>
+        <a class="btn bg-light text-secondary border m-3" href="{% url 'filter' status='done' %}">Выполненые</a>
+        <a class="btn bg-light text-secondary border m-3" href="{% url 'filter' status='received' %}">Принятые</a>
+    </div>
     {% if apl_items %}
         {% for item in apl_items %}
             <div class="table justify-content-between row p-3 text-dark bg-light border-top border-bottom">
@@ -20,92 +21,74 @@
                     <br><b>Статус: </b>{{ item.status_verbose }}</p>
 
                 <!-- Удалять можно только новые заявки -->
+                {#                {% if item.status == 'new' %}#}
+                {#                    <button id="myBtn" class="btn btn-outline-danger mt-auto  ml-auto h-25">Удалить</button>#}
+                {#                {% endif %}#}
+
                 {% if item.status == 'new' %}
-                    <button id="myBtn" class="btn btn-outline-danger mt-auto  ml-auto h-25">Удалить</button>
+                    <a class="btn ml-auto mt-auto h-100 p-1" href="#" onclick='del(this,{{ item.pk }})'>
+                        <button type="button" class="btn btn-outline-danger mt-auto  ml-auto h-25">Удалить</button>
+
+                        <a class="delButton mt-auto ml-auto" hidden="true" href="{% url 'delete' item.pk %}">
+                            <button type="button" class="btn btn-outline-danger">Точно удалить</button>
+                        </a>
+                    </a>
                 {% endif %}
-                {% if item.status == 'new' %}
-                <div id="myModal" class="modal">
-                    <!-- Модальное окно -->
-                    <div class="modal-content">
-                        <span class="close text-right">&times;</span>
-                        <p class="">Вы уверены?</p>
-                        <form class="justify-content-center" action="{% url 'delete' item.id %}" method="post">
-                            {% csrf_token %}
-                            {#                    <a href="{% url 'delete' user.id %}" class="btn btn-outline-danger mt-auto  ml-auto h-25">Удалить</a>#}
-                            <button type="submit" class="btn btn-outline-danger">Удалить</button>
-                        </form>
-                    </div>
-                </div>
-                {% endif %}
+
             </div>
         {% endfor %}
     {% else %}
         <p class="">Вы еще не создали ни одну заявку</p>
     {% endif %}
-    <style>
-        /* фон модалки */
-        .modal {
-            display: none; /* Скрыто по умолчанию */
-            position: fixed; /* Чтоб на месте оставалось */
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%; /* Полная ширина */
-            height: 100%; /* Полная высота */
-            overflow: auto;
-            background-color: rgb(0, 0, 0);
-            background-color: rgba(0, 0, 0, 0.4);
-        }
-
-        /* Содержание */
-        .modal-content {
-            background-color: #fefefe;
-            margin: 15% auto; /* 15% сверху и по центру */
-            padding: 20px;
-            border: 1px solid #888;
-            width: 15%; /* Ширина мод */
-        }
-
-        /* Кнопка закрытия */
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
-    </style>
+    {#    <style>#}
+    {#        /* фон модалки */#}
+    {#        .modal {#}
+    {#            display: none; /* Скрыто по умолчанию */#}
+    {#            position: fixed; /* Чтоб на месте оставалось */#}
+    {#            z-index: 1;#}
+    {#            left: 0;#}
+    {#            top: 0;#}
+    {#            width: 100%; /* Полная ширина */#}
+    {#            height: 100%; /* Полная высота */#}
+    {#            overflow: auto;#}
+    {#            background-color: rgb(0, 0, 0);#}
+    {#            background-color: rgba(0, 0, 0, 0.4);#}
+    {#        }#}
+    {##}
+    {#        /* Содержание */#}
+    {#        .modal-content {#}
+    {#            background-color: #fefefe;#}
+    {#            margin: 15% auto; /* 15% сверху и по центру */#}
+    {#            padding: 20px;#}
+    {#            border: 1px solid #888;#}
+    {#            width: 15%; /* Ширина мод */#}
+    {#        }#}
+    {##}
+    {#        /* Кнопка закрытия */#}
+    {#        .close {#}
+    {#            color: #aaa;#}
+    {#            float: right;#}
+    {#            font-size: 28px;#}
+    {#            font-weight: bold;#}
+    {#        }#}
+    {##}
+    {#        .close:hover,#}
+    {#        .close:focus {#}
+    {#            color: black;#}
+    {#            text-decoration: none;#}
+    {#            cursor: pointer;#}
+    {#        }#}
+    {#    </style>#}
     <script>
-        // Получаем модалку
-        let modal = document.getElementById("myModal");
-
-        // Кнопку
-        let btn = document.getElementById("myBtn");
-
-        // Получить элемент <span>, который закрывает модалку
-        let span = document.getElementsByClassName("close")[0];
-
-        // Когда пользователь нажимает на кнопку, открывается модалка
-        btn.onclick = function () {
-            modal.style.display = "block";
-        }
-
-        // Когда пользователь нажимает на <span> (x), закрывается окно
-        span.onclick = function () {
-            modal.style.display = "none";
-        }
-
-        // Когда пользователь щелкает в любом месте за пределами модального, закрывается
-        window.onclick = function (event) {
-            if (event.target === modal) {
-                modal.style.display = "none";
-            }
+        del = (target, pk) => {
+            let targButton = target;
+            let delButton = target.nextSibling;
+            targButton.hidden = true;
+            delButton.hidden = false;
+            setTimeout(() => {
+                delButton.hidden = true;
+                targButton.hidden = false;
+            }, 2000);
         }
     </script>
 {% endblock %}

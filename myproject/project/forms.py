@@ -59,6 +59,8 @@ class RegisterUserForm(forms.ModelForm):
 
 
 class CreateAplForm(forms.ModelForm):
+    photo = forms.ImageField(label='Фото', )
+
     class Meta:
         model = Aplication
         fields = ('name', 'description', 'Category', 'photo')

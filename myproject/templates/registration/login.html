@@ -3,7 +3,7 @@
 {% load bootstrap4 %}
 
 {% block content %}
-    <h2>Вход</h2>
+    <h4 class="p-3 mb-4 bg-light text-secondary border" style="margin-top: -30px;">Авторизация</h4>
     {% if request.user.is_authenticated %}
         <p>Вы уже выполнили вход. <a href="{% url 'logout' %}">Выйти.</a></p>
     {% else %}

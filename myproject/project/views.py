@@ -1,10 +1,8 @@
-from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.utils import timezone
-from django.views.generic import CreateView
+from django.views.generic import CreateView, ListView
 from .models import Aplication, Category
 from project.forms import RegisterUserForm, CreateAplForm
 
@@ -71,16 +69,7 @@ def delete(request, id):
 # def received_apl(request):
 #     return render(request, 'main/profile.html')
 
-# def apl_filter(request):
-#     apl_status = request.GET.get(status)
-#     if apl_status:
-#         apls = Aplication.objects.filter(count__gte=1, status=status)
-#     else:
-#         apls = Aplication.objects.filter(count__gte=1)
-#
-#     return render(request, 'main/profile.html', context={
-#         'aplications': apls,
-#     })
+
 # def aplication_filter(request):
 #     statuss = request.GET.get('status')
 #     if statuss:
@@ -95,16 +84,28 @@ def aplication_render(request):
     return render(request, 'main/profile.html', context={'apl_items': apl_items})
 
 
-def aplication_new(request):
-    apl_items = request.user.aplication_set.all().filter(status='new').order_by('-date')
-    return render(request, 'main/profile.html', context={'apl_items': apl_items})
+def apl_filter(request, status):
+    apl_items = request.user.aplication_set.all().filter(status=status).order_by('-date')
+    return render(request, 'main/profile.html', context={'apl_items': apl_items, 'status': status})
 
 
-def aplication_done(request):
-    apl_items = request.user.aplication_set.all().filter(status='done').order_by('-date')
-    return render(request, 'main/profile.html', context={'apl_items': apl_items})
 
+# !!!!!!!!!!!!!!!!!!!!def apl_filter(self, status):
+#     if self.GET.get('status') is not None:
+#         apl_items = Aplication.objects.all()
+#         if status == 'new':
+#             return render(self, 'main/profile.html', context={'apl_tems': apl_items, 'status': status})
+#     return render(self, 'main/profile.html')
 
-def aplication_received(request):
-    apl_items = request.user.aplication_set.all().filter(status='received').order_by('-date')
-    return render(request, 'main/profile.html', context={'apl_items': apl_items})
+# def apl_filter(self, status):
+#     apl_items = self.GET.get('status')
+#     if apl_items == 'done':
+#         apl_items = Aplication.objects.filter(status=status)
+#         print(1)
+#     else:
+#         apl_items = Aplication.objects.filter()
+#         print(2)
+#
+#     return render(self, 'main/profile.html', context={
+#         'status': status, 'apl_items': apl_items
+#     })

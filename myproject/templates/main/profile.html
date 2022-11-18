@@ -6,9 +6,9 @@
     <h4 style="padding-bottom: 10px">Здравствуйте, {{ user.username }}</h4>
     <div class="d-flex h5 p-3 mb-2 justify-content-between bg-dark text-white">Ваши заявки</div>
     <a class="btn bg-dark text-white m-3" href="{% url 'profile' %}">Все</a>
-    <a class="btn bg-dark text-white m-3" href="{% url 'filter_new' %}">Новые</a>
-    <a class="btn bg-dark text-white m-3" href="{% url 'filter_done' %}">Выполненые</a>
-    <a class="btn bg-dark text-white m-3" href="{% url 'filter_received' %}">Принятые</a>
+    <a class="btn bg-dark text-white m-3" href="{% url 'filter' status='new' %}">Новые</a>
+    <a class="btn bg-dark text-white m-3" href="{% url 'filter' status='done' %}">Выполненые</a>
+    <a class="btn bg-dark text-white m-3" href="{% url 'filter' status='received' %}">Принятые</a>
     {% if apl_items %}
         {% for item in apl_items %}
             <div class="table justify-content-between row p-3 text-dark bg-light border-top border-bottom">
@@ -23,7 +23,7 @@
                 {% if item.status == 'new' %}
                     <button id="myBtn" class="btn btn-outline-danger mt-auto  ml-auto h-25">Удалить</button>
                 {% endif %}
-
+                {% if item.status == 'new' %}
                 <div id="myModal" class="modal">
                     <!-- Модальное окно -->
                     <div class="modal-content">
@@ -36,7 +36,7 @@
                         </form>
                     </div>
                 </div>
-
+                {% endif %}
             </div>
         {% endfor %}
     {% else %}
@@ -83,13 +83,13 @@
     </style>
     <script>
         // Получаем модалку
-        var modal = document.getElementById("myModal");
+        let modal = document.getElementById("myModal");
 
         // Кнопку
-        var btn = document.getElementById("myBtn");
+        let btn = document.getElementById("myBtn");
 
         // Получить элемент <span>, который закрывает модалку
-        var span = document.getElementsByClassName("close")[0];
+        let span = document.getElementsByClassName("close")[0];
 
         // Когда пользователь нажимает на кнопку, открывается модалка
         btn.onclick = function () {
@@ -103,7 +103,7 @@
 
         // Когда пользователь щелкает в любом месте за пределами модального, закрывается
         window.onclick = function (event) {
-            if (event.target == modal) {
+            if (event.target === modal) {
                 modal.style.display = "none";
             }
         }

@@ -1,6 +1,7 @@
 from django.urls import path
 from project import views
-from .views import index, BBLoginView, profile, RegisterView, createapl, aplication_render
+from .views import index, BBLoginView, profile, RegisterView, createapl, aplication_render, \
+    apl_filter
 from django.contrib.auth import views as authViews
 
 urlpatterns = [
@@ -11,9 +12,10 @@ urlpatterns = [
     path('profile/', aplication_render, name='profile'),
     path('create_aplication/', createapl, name='createapl'),
     path('profile/<int:id>', views.delete, name='delete'),
-    path('profile/new', views.aplication_new, name='filter_new'),
-    path('profile/done', views.aplication_done, name='filter_done'),
-    path('profile/received', views.aplication_received, name='filter_received'),
-
+    path('profile/<str:status>', apl_filter, name='filter'),
+    # path('profile/new', views.aplication_new, name='filter_new'),
 ]
+
+# path('profile/done', views.aplication_done, name='filter_done'),
+#     path('profile/received', views.aplication_received, name='filter_received'),
 

@@ -72,6 +72,8 @@ class AplicationForm(forms.ModelForm):
         second_photo = self.cleaned_data.get('second_photo')
         if self.instance.status != 'new':
             raise forms.ValidationError({'status': 'Статус можно сменить только у новой заявки'})
+        if status == 'new' and comment:
+            raise forms.ValidationError({'comment': 'К новой заявке нельзя добавить комментарий'})
         if status == 'received' and not comment:
             raise forms.ValidationError({'comment': 'Нужно указать комментарий для заявки принятой в работу'})
         if status == 'done' and not second_photo:
